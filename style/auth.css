@@ -1,0 +1,186 @@
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    color: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  /* Auth Container */
+  .auth-container {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+    width: 90%;
+    max-width: 400px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  /* Headings */
+  .auth-container h2,h4 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.75rem;
+    color: #333;
+  }
+  
+  /* Form Elements */
+  .auth-container label {
+    display: block;
+    margin: 0.75rem 0 0.3rem;
+    font-weight: 500;
+  }
+  
+  .auth-container input,
+  .auth-container select {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #fefefe;
+    transition: border-color 0.2s, background-color 0.2s;
+  }
+  
+  .auth-container input:focus,
+  .auth-container select:focus {
+    outline: none;
+    border-color: #1e90ff;
+    background-color: #fff;
+  }
+  
+  .auth-container button {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #1e90ff;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .auth-container button:hover {
+    background-color: #0f75d3;
+  }
+  
+  /* Links */
+  .auth-container p {
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .auth-container a {
+    color: #1e90ff;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .auth-container a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Dark Mode */
+  body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+  
+  body.dark-mode .auth-container {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+  }
+  
+  body.dark-mode input,
+  body.dark-mode select {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444;
+  }
+  
+  body.dark-mode input:focus,
+  body.dark-mode select:focus {
+    background-color: #333;
+    border-color: #1e90ff;
+  }
+  
+  body.dark-mode button {
+    background-color: #1e90ff;
+    color: #fff;
+  }
+  
+  body.dark-mode a {
+    color: #90caf9;
+  }
+  .dark-toggle {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 8px;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 20px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 34px;
+    transition: 0.4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #1e90ff;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(20px);
+  }
+  body.dark-mode .auth-container h2,
+body.dark-mode .auth-container h4 {
+  color: #1e90ff; /* Or choose another bright color that contrasts well */
+}

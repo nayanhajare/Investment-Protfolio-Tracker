@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Investment Dashboard</title>
+
+  <!-- Custom CSS -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <!-- Loading Spinner -->
+  <div id="loadingSpinner" style="display: none;">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="material-icons">bar_chart</span>
+      <span>Portfolio Tracker</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#" class="sidebar-link active" data-section="dashboard"><span class="material-icons">dashboard</span>Dashboard</a></li>
+        <li><a href="#" class="sidebar-link" data-section="assets"><span class="material-icons">account_balance_wallet</span>Assets</a></li>
+        <li><a href="#" class="sidebar-link" data-section="reports"><span class="material-icons">insert_chart</span>Reports</a></li>
+        <li><a href="#" class="sidebar-link" data-section="settings"><span class="material-icons">settings</span>Settings</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Navbar -->
+    <header class="navbar">
+      <h2 id="sectionTitle">Dashboard</h2>
+      <div class="navbar-right">
+        <div class="dark-toggle">
+          <i class="fas fa-moon"></i>
+          <label class="switch">
+            <input type="checkbox" id="darkToggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+        <span id="userEmail">Loading...</span>
+        <button id="logoutBtn" class="btn-logout" type="button" aria-label="Logout">Logout</button>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <section class="content">
+      <div id="dashboardSection" class="page-section">
+        <div id="userSection" class="role-section hidden">
+          <h3>User Portfolio</h3>
+          <p>Track your assets and portfolio performance.</p>
+        </div>
+        <div id="adminSection" class="role-section hidden">
+          <h3>Admin Panel</h3>
+          <p>Manage users and analytics.</p>
+        </div>
+
+        <!-- Add Asset Form -->
+        <div class="card">
+          <h4>Add Asset</h4>
+          <div class="form-row">
+            <input type="text" id="assetName" placeholder="Asset Name">
+            <div id="suggestions" class="suggestions-container"></div>
+            <input type="number" id="quantity" placeholder="Quantity">
+            <input type="number" id="price" placeholder="Price">
+            <button onclick="addAsset()">Add</button>
+          </div>
+        </div>
+
+        <h3 id="totalValueDisplay">Total Portfolio Value: ₹0</h3>
+
+        <!-- Charts -->
+        <div class="charts">
+          <div class="chart-card">
+            <h4>Asset Distribution</h4>
+            <canvas id="pieChart"></canvas>
+          </div>
+          <div class="chart-card">
+            <h4>Portfolio Over Time</h4>
+            <canvas id="lineChart"></canvas>
+          </div>
+        </div>
+
+        <button onclick="refreshAllPrices()">Refresh Prices</button>
+
+        <div class="summary-cards" id="portfolioSummary">
+          <div class="summary-card">
+            <p>Total Invested</p>
+            <h3 id="totalInvested">₹0</h3>
+          </div>
+          <div class="summary-card">
+            <p>Current Value</p>
+            <h3 id="currentValue">₹0</h3>
+          </div>
+          <div class="summary-card">
+            <p>Net Gain/Loss</p>
+            <h3 id="netGainLoss" class="neutral">₹0 (0%)</h3>
+          </div>
+        </div>
+        
+        <!-- Asset List -->
+        <div class="card">
+          <div class="card-header">
+            <h4>Your Assets</h4>
+            <input type="text" id="searchInput" placeholder="Search assets..." oninput="filterAssets()">
+          </div>
+          <div id="assetsContainer" class="assets-container"></div>
+        </div>
+      </div>
+
+      <div id="assetsSection" class="page-section hidden">
+        <h3>Assets Overview</h3>
+        <p>View and manage all your investments here.</p>
+      </div>
+
+      <div id="reportsSection" class="page-section hidden">
+        <h3>Reports & Analytics</h3>
+        <p>Coming soon: In-depth analytics and trends.</p>
+        <!-- Export Button here -->
+        <button id="exportCsvBtn" class="export-btn">
+          📁 Export CSV
+        </button>
+      </div>
+
+      <div id="settingsSection" class="page-section hidden">
+        <h3>Settings</h3>
+        <p>Customize your preferences.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Edit Asset Modal -->
+  <div id="editAssetModal" class="custom-modal hidden">
+    <div class="custom-modal-content">
+      <h3>Edit Asset</h3>
+      <input type="hidden" id="editAssetId" />
+      <label>Quantity</label>
+      <input type="number" id="editQuantity" placeholder="Quantity" />
+      <label>Price (INR)</label>
+      <input type="number" id="editPrice" placeholder="Price" />
+      <div class="modal-buttons">
+        <button onclick="saveEditAsset()" class="btn-save">Save</button>
+        <button onclick="closeEditModal()" class="btn-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <!-- Toast Notification -->
+<div id="toastContainer" class="toast-container"></div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+  <script src="firebase.js"></script>
+  <script src="./script/dashboard.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Sidebar Navigation Script -->
+  <script>
+    const sidebarLinks = document.querySelectorAll(".sidebar-link");
+    const sectionTitle = document.getElementById("sectionTitle");
+    const sections = {
+      dashboard: document.getElementById("dashboardSection"),
+      assets: document.getElementById("assetsSection"),
+      reports: document.getElementById("reportsSection"),
+      settings: document.getElementById("settingsSection")
+    };
+
+    sidebarLinks.forEach(link => {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        sidebarLinks.forEach(l => l.classList.remove("active"));
+        link.classList.add("active");
+
+        const target = link.getAttribute("data-section");
+        sectionTitle.textContent = link.innerText.trim();
+
+        Object.keys(sections).forEach(key => {
+          sections[key].classList.toggle("hidden", key !== target);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
