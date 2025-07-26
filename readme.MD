@@ -17,7 +17,7 @@ https://nayan-investmentportfoliotracker.netlify.app/dashboard.html
 - **Frontend**: https://nayan-investmentportfoliotracker.netlify.app/dashboard.html
 - **Firebase Auth**: https://console.firebase.google.com/u/0/project/investment-portfolio-tra-7e9e6/authentication/users
 - **Database**: https://console.firebase.google.com/u/0/project/investment-portfolio-tra-7e9e6/overview
-
+**Github**: https://github.com/nayanhajare/Investment-Protfolio-Tracker
 ## 📁 Directory Structure
 ```
 investment-portfolio-tracker/
